@@ -1,0 +1,18 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: spring-boot-crac-demo
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
+    app.kubernetes.io/part-of: spring-boot-crac-demo
+spec:
+  params:
+  - name: dockerfile
+    value: "./Dockerfile"
+  - name: docker_build_context
+    value: "./src"
+  source:
+    git:
+      url: https://github.com/tsalm-vmware/spring-boot-crac-demo.git
+      ref:
+        branch: main

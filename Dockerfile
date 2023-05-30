@@ -1,14 +1,50 @@
+FROM ubuntu:22.04 AS crac-checkpoint
+
+WORKDIR /home/app
+
+# Add required libraries
+RUN apt-get update && apt-get install -y \
+        curl \
+        jq \
+        libnl-3-200 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install latest CRaC OpenJDK
+RUN release="$(curl -sL https://api.github.com/repos/CRaC/openjdk-builds/releases/latest)" \
+    && asset="$(echo $release | sed -e 's/\r//g' | sed -e 's/\x09//g' | tr '\n' ' ' | jq '.assets[] | select(.name | test("openjdk-[0-9]+-crac\\+[0-9]+_linux-x64\\.tar\\.gz"))')" \
+    && id="$(echo $asset | jq .id)" \
+    && name="$(echo $asset | jq -r .name)" \
+    && curl -LJOH 'Accept: application/octet-stream' "https://api.github.com/repos/CRaC/openjdk-builds/releases/assets/$id" >&2 \
+    && tar xzf "$name" \
+    && mv ${name%%.tar.gz} /azul-crac-jdk \
+    && rm "$name"
+
+# Copy layers
+COPY classes /home/app/classes
+COPY dependency/* /home/app/libs/
+
+# Add build scripts
+COPY scripts/checkpoint.sh /home/app/checkpoint.sh
+COPY scripts/warmup.sh /home/app/warmup.sh
+
+ENTRYPOINT ["/home/app/checkpoint.sh"]
+
 FROM ubuntu:22.04
 
-ENV JAVA_HOME /opt/jdk
-ENV PATH $JAVA_HOME/bin:$PATH
+WORKDIR /home/app
 
-ADD "https://cdn.azul.com/zulu/bin/zulu17.42.21-ca-crac-jdk17.0.7-linux_x64.tar.gz" $JAVA_HOME/openjdk.tar.gz
-RUN tar --extract --file $JAVA_HOME/openjdk.tar.gz --directory "$JAVA_HOME" --strip-components 1; rm $JAVA_HOME/openjdk.tar.gz;
-RUN mkdir -p /opt/app
-COPY target/spring-boot-crac-demo-1.0.0-SNAPSHOT.jar /opt/app/spring-boot-crac-demo-1.0.0-SNAPSHOT.jar
-COPY src/scripts/entrypoint-checkpoint.sh /opt/app/entrypoint-checkpoint.sh
-COPY src/scripts/entrypoint-restore.sh /opt/app/entrypoint-restore.sh
-RUN mkdir -p /opt/crac-files
+# Add required libraries
+RUN apt-get update && apt-get install -y \
+        libnl-3-200 \
+    && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT /opt/app/entrypoint-checkpoint.sh
+# Copy CRaC JDK from the checkpoint image (to save a download)
+COPY --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
+
+# Copy layers
+COPY cr /home/app/cr
+COPY --from=crac-checkpoint /home/app/classes /home/app/classes
+COPY --from=crac-checkpoint /home/app/libs /home/app/libs
+COPY scripts/run.sh /home/app/run.sh
+
+ENTRYPOINT ["/home/app/run.sh"]
