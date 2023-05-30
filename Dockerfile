@@ -45,7 +45,7 @@ RUN apt-get update && apt-get install -y \
 COPY --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
 
 # Copy layers
-COPY cr /home/app/cr
+COPY --from=crac-checkpoint /home/app/cr/ /home/app/cr/
 COPY --from=crac-checkpoint /home/app/spring-boot-crac-demo.jar /home/app/spring-boot-crac-demo.jar
 COPY src/scripts/run.sh /home/app/run.sh
 
