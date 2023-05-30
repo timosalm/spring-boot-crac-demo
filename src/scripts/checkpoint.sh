@@ -7,7 +7,7 @@ echo "JAVA HOME is " +  $JAVA_HOME
 echo 599 > /proc/sys/kernel/ns_last_pid
 
 # Set a trap to close the app once the script finishes
-trap 'echo "Killing $PROCESS" && kill -0 $PROCESS 2>/dev/null && kill $PROCESS' EXIT
+#trap 'echo "Killing $PROCESS" && kill -0 $PROCESS 2>/dev/null && kill $PROCESS' EXIT
 
 echo "Starting application"
 
