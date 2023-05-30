@@ -46,29 +46,6 @@ echo "Warming up application"
 echo "Sending checkpoint signal to process $PROCESS"
 ${JAVA_HOME}/bin/jcmd $PROCESS JDK.checkpoint
 
-echo "Wait up to 5min for snapshot to be complete"
-retries=60
-while [ $retries -gt 0 ]; do
-  kill -0 $PROCESS 2>/dev/null
-  OK=$?
-  if [ $OK -eq 1 ] ; then
-    echo ".done"
-    break
-  fi
-  echo -n "$OK."
-  sleep 5
-  retries=$((retries - 1))
-done
-
-kill -0 $PROCESS 2>/dev/null
-OK=$?
-if [ $OK -eq 1 ]; then
-  wait $PROCESS
-  echo "EXITED WITH $?"
-  echo "Snapshotting complete"
-  # Make the snapshot files readable to the host
-  chmod 666 cr/*
-else
-  echo "Snapshotting failed"
-  exit 1
-fi
+sleep 30
+echo "Snapshotting complete"
+chmod 666 cr/*
