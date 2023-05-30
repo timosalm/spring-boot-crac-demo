@@ -19,6 +19,7 @@ RUN release="$(curl -sL https://api.github.com/repos/CRaC/openjdk-builds/release
     && mv ${name%%.tar.gz} /azul-crac-jdk \
     && rm "$name"
 
+COPY mvnw mvnw.cmd pom.xml src .mvn /home/app/
 RUN ./mvnw package
 
 # Copy layers
