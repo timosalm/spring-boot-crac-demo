@@ -9,8 +9,6 @@ spec:
   params:
   - name: dockerfile
     value: "./Dockerfile"
-  - name: docker_build_context
-    value: "./src"
   source:
     git:
       url: https://github.com/tsalm-vmware/spring-boot-crac-demo.git

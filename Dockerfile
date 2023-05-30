@@ -19,13 +19,14 @@ RUN release="$(curl -sL https://api.github.com/repos/CRaC/openjdk-builds/release
     && mv ${name%%.tar.gz} /azul-crac-jdk \
     && rm "$name"
 
+RUN ./mvnw package
+
 # Copy layers
-COPY classes /home/app/classes
-COPY dependency/* /home/app/libs/
+COPY target/spring-boot-crac-demo-1.0.0-SNAPSHOT.jar /home/app/spring-boot-crac-demo.jar
 
 # Add build scripts
-COPY scripts/checkpoint.sh /home/app/checkpoint.sh
-COPY scripts/warmup.sh /home/app/warmup.sh
+COPY src/scripts/checkpoint.sh /home/app/checkpoint.sh
+COPY src/scripts/warmup.sh /home/app/warmup.sh
 
 ENTRYPOINT ["/home/app/checkpoint.sh"]
 
@@ -43,8 +44,7 @@ COPY --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
 
 # Copy layers
 COPY cr /home/app/cr
-COPY --from=crac-checkpoint /home/app/classes /home/app/classes
-COPY --from=crac-checkpoint /home/app/libs /home/app/libs
-COPY scripts/run.sh /home/app/run.sh
+COPY --from=crac-checkpoint /home/app/spring-boot-crac-demo.jar /home/app/spring-boot-crac-demo.jar
+COPY src/scripts/run.sh /home/app/run.sh
 
 ENTRYPOINT ["/home/app/run.sh"]
