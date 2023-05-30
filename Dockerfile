@@ -21,7 +21,8 @@ RUN release="$(curl -sL https://api.github.com/repos/CRaC/openjdk-builds/release
     && mv ${name%%.tar.gz} $JAVA_HOME \
     && rm "$name"
 
-COPY mvnw mvnw.cmd pom.xml .mvn /home/app/
+COPY mvnw mvnw.cmd pom.xml /home/app/
+COPY .mvn/ /home/app/.mvn/
 COPY src/ /home/app/src/
 RUN ./mvnw package && mv target/spring-boot-crac-demo-1.0.0-SNAPSHOT.jar spring-boot-crac-demo.jar
 
