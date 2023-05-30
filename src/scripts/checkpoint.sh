@@ -1,6 +1,5 @@
 #!/bin/bash
 set -x
-set +e
 
 echo "JAVA HOME is " +  $JAVA_HOME
 
