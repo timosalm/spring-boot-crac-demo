@@ -47,5 +47,6 @@ echo "Sending checkpoint signal to process $PROCESS"
 ${JAVA_HOME}/bin/jcmd $PROCESS JDK.checkpoint
 
 sleep 30
+kill $PROCESS 2>/dev/null
 echo "Snapshotting complete"
 chmod 666 cr/*
