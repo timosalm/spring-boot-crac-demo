@@ -2,6 +2,8 @@ FROM ubuntu:22.04 AS crac-checkpoint
 
 WORKDIR /home/app
 
+ENV JAVA_HOME /azul-crac-jdk
+
 # Add required libraries
 RUN apt-get update && apt-get install -y \
         curl \
@@ -16,7 +18,7 @@ RUN release="$(curl -sL https://api.github.com/repos/CRaC/openjdk-builds/release
     && name="$(echo $asset | jq -r .name)" \
     && curl -LJOH 'Accept: application/octet-stream' "https://api.github.com/repos/CRaC/openjdk-builds/releases/assets/$id" >&2 \
     && tar xzf "$name" \
-    && mv ${name%%.tar.gz} /azul-crac-jdk \
+    && mv ${name%%.tar.gz} $JAVA_HOME \
     && rm "$name"
 
 COPY mvnw mvnw.cmd pom.xml .mvn /home/app/
@@ -39,7 +41,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy CRaC JDK from the checkpoint image (to save a download)
-COPY --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
+COPY --from=crac-checkpoint $JAVA_HOME $JAVA_HOME
 
 # Copy layers
 COPY cr /home/app/cr

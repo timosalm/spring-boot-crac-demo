@@ -2,7 +2,7 @@
 set -x
 set +e
 
-#!/bin/bash
+echo "JAVA HOME is " +  $JAVA_HOME
 
 # Bump pid to avoid pid conflicts when restoring
 echo 599 > /proc/sys/kernel/ns_last_pid
