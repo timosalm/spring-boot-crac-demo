@@ -2,14 +2,14 @@ FROM ubuntu:22.04 AS crac-checkpoint
 
 WORKDIR /home/app
 
-ENV JAVA_HOME /azul-crac-jdk
-
 # Add required libraries
 RUN apt-get update && apt-get install -y \
         curl \
         jq \
         libnl-3-200 \
     && rm -rf /var/lib/apt/lists/*
+
+ENV JAVA_HOME /azul-crac-jdk
 
 # Install latest CRaC OpenJDK
 RUN release="$(curl -sL https://api.github.com/repos/CRaC/openjdk-builds/releases/latest)" \
@@ -42,7 +42,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy CRaC JDK from the checkpoint image (to save a download)
-COPY --from=crac-checkpoint $JAVA_HOME $JAVA_HOME
+COPY --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
 
 # Copy layers
 COPY cr /home/app/cr
