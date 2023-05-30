@@ -16,7 +16,7 @@ echo "Starting application"
 GLIBC_TUNABLES=glibc.pthread.rseq=0
 
 # Run the app in the background
-/azul-crac-jdk/bin/java \
+${JAVA_HOME}/bin/java \
   -XX:CRaCCheckpointTo=cr \
   -XX:+UnlockDiagnosticVMOptions \
   -XX:+CRTraceStartupTime \
@@ -28,7 +28,7 @@ echo "Started application as process $PROCESS"
 # Wait for the app to be started
 echo "Waiting 10s for application to start"
 retries=5
-until $(@READINESS@); do
+until $(curl --output /dev/null --silent --head http://localhost:8080); do
   if [ $retries -le 0 ]; then
     echo "failed"
     exit 1
@@ -44,7 +44,7 @@ echo "Warming up application"
 
 # Take a snapshot
 echo "Sending checkpoint signal to process $PROCESS"
-/azul-crac-jdk/bin/jcmd $PROCESS JDK.checkpoint
+${JAVA_HOME}/bin/jcmd $PROCESS JDK.checkpoint
 
 echo "Wait up to 60s for snapshot to be complete"
 retries=12
