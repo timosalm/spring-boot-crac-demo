@@ -19,11 +19,9 @@ RUN release="$(curl -sL https://api.github.com/repos/CRaC/openjdk-builds/release
     && mv ${name%%.tar.gz} /azul-crac-jdk \
     && rm "$name"
 
-COPY mvnw mvnw.cmd pom.xml src .mvn /home/app/
-RUN ./mvnw package
-
-# Copy layers
-COPY target/spring-boot-crac-demo-1.0.0-SNAPSHOT.jar /home/app/spring-boot-crac-demo.jar
+COPY mvnw mvnw.cmd pom.xml .mvn /home/app/
+COPY src/ /home/app/src/
+RUN ./mvnw package && mv target/spring-boot-crac-demo-1.0.0-SNAPSHOT.jar spring-boot-crac-demo.jar
 
 # Add build scripts
 COPY src/scripts/checkpoint.sh /home/app/checkpoint.sh
