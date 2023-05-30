@@ -46,8 +46,8 @@ echo "Warming up application"
 echo "Sending checkpoint signal to process $PROCESS"
 ${JAVA_HOME}/bin/jcmd $PROCESS JDK.checkpoint
 
-echo "Wait up to 60s for snapshot to be complete"
-retries=12
+echo "Wait up to 5min for snapshot to be complete"
+retries=60
 while [ $retries -gt 0 ]; do
   kill -0 $PROCESS 2>/dev/null
   OK=$?
