@@ -30,7 +30,7 @@ RUN ./mvnw package && mv target/spring-boot-crac-demo-1.0.0-SNAPSHOT.jar spring-
 COPY src/scripts/checkpoint.sh /home/app/checkpoint.sh
 COPY src/scripts/warmup.sh /home/app/warmup.sh
 
-ENTRYPOINT ["/home/app/checkpoint.sh"]
+RUN /home/app/checkpoint.sh
 
 FROM ubuntu:22.04
 
