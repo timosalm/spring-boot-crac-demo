@@ -2,6 +2,8 @@ FROM ubuntu:22.04 AS crac-checkpoint
 
 WORKDIR /home/app
 
+USER root
+
 # Add required libraries
 RUN apt-get update && apt-get install -y \
         curl \
