@@ -36,14 +36,14 @@ RUN /home/app/checkpoint.sh
 
 FROM ubuntu:22.04
 
-USER 1000
-
 WORKDIR /home/app
 
 # Add required libraries
 RUN apt-get update && apt-get install -y \
         libnl-3-200 \
     && rm -rf /var/lib/apt/lists/*
+
+USER 1000
 
 # Copy CRaC JDK from the checkpoint image (to save a download)
 COPY --chown=1000 --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
