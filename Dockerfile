@@ -44,11 +44,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy CRaC JDK from the checkpoint image (to save a download)
-COPY --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
+COPY --chown=1001 --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
 
 # Copy layers
-COPY --from=crac-checkpoint /home/app/cr/ /home/app/cr/
-COPY --from=crac-checkpoint /home/app/spring-boot-crac-demo.jar /home/app/spring-boot-crac-demo.jar
-COPY src/scripts/run.sh /home/app/run.sh
+COPY --chown=1001 --from=crac-checkpoint /home/app/cr/ /home/app/cr/
+COPY --chown=1001 --from=crac-checkpoint /home/app/spring-boot-crac-demo.jar /home/app/spring-boot-crac-demo.jar
+COPY --chown=1001 src/scripts/run.sh /home/app/run.sh
 
 ENTRYPOINT ["/home/app/run.sh"]
