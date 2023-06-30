@@ -36,6 +36,8 @@ RUN /home/app/checkpoint.sh
 
 FROM ubuntu:22.04
 
+USER 1000
+
 WORKDIR /home/app
 
 # Add required libraries
