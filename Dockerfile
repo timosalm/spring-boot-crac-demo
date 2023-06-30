@@ -43,8 +43,6 @@ RUN apt-get update && apt-get install -y \
         libnl-3-200 \
     && rm -rf /var/lib/apt/lists/*
 
-USER 1000
-
 # Copy CRaC JDK from the checkpoint image (to save a download)
 COPY --chown=1000 --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
 
@@ -52,5 +50,7 @@ COPY --chown=1000 --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
 COPY --chown=1000 --from=crac-checkpoint /home/app/cr/ /home/app/cr/
 COPY --chown=1000 --from=crac-checkpoint /home/app/spring-boot-crac-demo.jar /home/app/spring-boot-crac-demo.jar
 COPY --chown=1000 src/scripts/run.sh /home/app/run.sh
+
+RUN chown -R 1000 /tmp
 
 ENTRYPOINT ["/home/app/run.sh"]
