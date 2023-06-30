@@ -51,6 +51,6 @@ COPY --chown=1000 --from=crac-checkpoint /home/app/cr/ /home/app/cr/
 COPY --chown=1000 --from=crac-checkpoint /home/app/spring-boot-crac-demo.jar /home/app/spring-boot-crac-demo.jar
 COPY --chown=1000 src/scripts/run.sh /home/app/run.sh
 
-RUN chown -R 1000 /tmp
+RUN chown -R 1000:1000 /tmp
 
 ENTRYPOINT ["/home/app/run.sh"]
