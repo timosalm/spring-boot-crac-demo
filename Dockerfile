@@ -31,13 +31,20 @@ FROM ubuntu:22.04
 
 WORKDIR /home/app
 
+USER root
+
+ENV JAVA_HOME /azul-crac-jdk
+ENV PATH $PATH:$JAVA_HOME/bin
+
 # Add required libraries
 RUN apt-get update && apt-get install -y \
         libnl-3-200 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy CRaC JDK from the checkpoint image (to save a download)
-COPY --from=build-app /azul-crac-jdk /azul-crac-jdk
+COPY --from=build-app $JAVA_HOME $JAVA_HOME
+
+
 
 # Copy layers
 COPY --from=build-app /home/app/spring-boot-crac-demo.jar /home/app/spring-boot-crac-demo.jar
