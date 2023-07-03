@@ -1,5 +1,4 @@
-FROM ubuntu:22.04 AS crac-checkpoint
-
+FROM ubuntu:22.04 AS build-app
 WORKDIR /home/app
 
 USER root
@@ -28,12 +27,6 @@ COPY .mvn/ /home/app/.mvn/
 COPY src/ /home/app/src/
 RUN ./mvnw package && mv target/spring-boot-crac-demo-1.0.0-SNAPSHOT.jar spring-boot-crac-demo.jar
 
-# Add build scripts
-COPY src/scripts/checkpoint.sh /home/app/checkpoint.sh
-COPY src/scripts/warmup.sh /home/app/warmup.sh
-
-RUN /home/app/checkpoint.sh
-
 FROM ubuntu:22.04
 
 WORKDIR /home/app
@@ -44,13 +37,10 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy CRaC JDK from the checkpoint image (to save a download)
-COPY --chown=1000 --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
+COPY --from=crac-checkpoint /azul-crac-jdk /azul-crac-jdk
 
 # Copy layers
-COPY --chown=1000 --from=crac-checkpoint /home/app/cr/ /home/app/cr/
-COPY --chown=1000 --from=crac-checkpoint /home/app/spring-boot-crac-demo.jar /home/app/spring-boot-crac-demo.jar
-COPY --chown=1000 src/scripts/run.sh /home/app/run.sh
+COPY --from=crac-checkpoint /home/app/spring-boot-crac-demo.jar /home/app/spring-boot-crac-demo.jar
+COPY src/scripts/entrypoint.sh /home/app/entrypoint.sh
 
-RUN chown -R 1000:1000 /tmp
-
-ENTRYPOINT ["/home/app/run.sh"]
+ENTRYPOINT ["/home/app/entrypoint.sh"]
