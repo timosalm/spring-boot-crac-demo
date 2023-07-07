@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
 
 ENV JAVA_HOME /azul-crac-jdk
 
-RUN curl https://cdn.azul.com/zulu/bin/zulu17.42.21-ca-crac-jdk17.0.7-linux_x64.tar.gz | tar -xz --strip-components 1 -C $JAVA_HOME
+RUN mkdir $JAVA_HOME \
+  && curl https://cdn.azul.com/zulu/bin/zulu17.42.21-ca-crac-jdk17.0.7-linux_x64.tar.gz | tar -xz --strip-components 1 -C $JAVA_HOME
 
 COPY mvnw mvnw.cmd pom.xml /home/app/
 COPY .mvn/ /home/app/.mvn/
