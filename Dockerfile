@@ -12,14 +12,9 @@ RUN apt-get update && apt-get install -y \
 
 ENV JAVA_HOME /azul-crac-jdk
 
-# Install latest CRaC OpenJDK
-RUN release="$(curl -sL https://api.github.com/repos/CRaC/openjdk-builds/releases/latest)" \
-    && asset="$(echo $release | sed -e 's/\r//g' | sed -e 's/\x09//g' | tr '\n' ' ' | jq '.assets[] | select(.name | test("openjdk-[0-9]+-crac\\+[0-9]+_linux-x64\\.tar\\.gz"))')" \
-    && id="$(echo $asset | jq .id)" \
-    && name="$(echo $asset | jq -r .name)" \
-    && curl -LJOH 'Accept: application/octet-stream' "https://api.github.com/repos/CRaC/openjdk-builds/releases/assets/$id" >&2 \
-    && tar xzf "$name" \
-    && mv ${name%%.tar.gz} $JAVA_HOME \
+RUN name=zulu.tar.gz
+    && curl https://cdn.azul.com/zulu/bin/zulu17.42.21-ca-crac-jdk17.0.7-linux_x64.tar.gz --output $name
+    && mv $name $JAVA_HOME \
     && rm "$name"
 
 COPY mvnw mvnw.cmd pom.xml /home/app/
