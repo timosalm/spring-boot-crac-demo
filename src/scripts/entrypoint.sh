@@ -1,3 +1,4 @@
+#!/bin/bash
 set -x
 
 CRAC_FILES_DIR=`eval echo ${CRAC_FILES_DIR}`
