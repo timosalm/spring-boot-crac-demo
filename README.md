@@ -11,6 +11,6 @@ To run the demo on VMware Tanzu Application Platform (TAP), we have to make some
 ```
 git clone https://github.com/timosalm/spring-boot-crac-demo.git
 cd spring-boot-crac-demo
-export $DEVELOPER_NS=developer-ns
+export DEVELOPER_NS=developer-ns
 ./run-with-customizations-on-tap.sh
 ```
