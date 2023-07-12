@@ -43,7 +43,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: developer-ns
+  namespace: $DEVELOPER_NS
 EOF
 
 cat <<EOF | kubectl apply -f -
@@ -306,4 +306,4 @@ spec:
               claimName: #@ data.values.workload.metadata.name      
 EOF
 
-kubectl apply -f https://raw.githubusercontent.com/timosalm/spring-boot-crac-demo/checkpoint-at-runtime/config/workload.yaml
+kubectl apply -f config/

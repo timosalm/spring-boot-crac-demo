@@ -14,3 +14,9 @@ spec:
       url: https://github.com/timosalm/spring-boot-crac-demo.git
       ref:
         branch: main
+  serviceClaims:
+    - name: db
+      ref:
+        apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+        kind: ClassClaim
+        name: spring-boot-crac-demo-db-claim
