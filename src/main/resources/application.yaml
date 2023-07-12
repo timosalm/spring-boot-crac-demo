@@ -2,5 +2,7 @@ spring:
   jpa:
     generate-ddl: true
     defer-datasource-initialization: true
-logging.level.org.hibernate: DEBUG
+  datasource:
+    driver-class-name: org.postgresql.Driver
 org.springframework.cloud.bindings.boot.enable: true
+logging.level.org.hibernate: DEBUG
