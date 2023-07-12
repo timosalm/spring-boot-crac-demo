@@ -287,7 +287,7 @@ spec:
               - name: CRAC_FILES_DIR
                 value: /var/crac/\$(REVISION_NAME)/\$(REVISION_UID)
               - name: JAVA_TOOL_OPTIONS
-                value: -Dmanagement.endpoint.health.probes.add-additional-paths="true" -Dmanagement.endpoint.health.show-details="always" -Dmanagement.endpoints.web.base-path="/actuator" -Dmanagement.endpoints.web.exposure.include="*" -Dmanagement.health.probes.enabled="true" -Dmanagement.server.port="8081" -Dserver.port="8080" -Dserver.shutdown.grace-period="24s" -Djava.security.properties=/layers/paketo-buildpacks_bellsoft-liberica/java-security-properties/java-security.properties -XX:+ExitOnOutOfMemoryError -XX:ActiveProcessorCount=8 -XX:MaxDirectMemorySize=10M -Xmx26606610K -XX:MaxMetaspaceSize=108561K -XX:ReservedCodeCacheSize=240M -Xss1M -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=summary -XX:+PrintNMTStatistics -Dorg.springframework.cloud.bindings.boot.enable=true
+                value: -Dorg.springframework.cloud.bindings.boot.enable=true
               #@ if hasattr(data.values.workload.spec, "env"):
               #@ for var in data.values.workload.spec.env:
               - name: #@ var.name
