@@ -11,6 +11,6 @@ spec:
     value: "./Dockerfile"
   source:
     git:
-      url: https://github.com/tsalm-vmware/spring-boot-crac-demo.git
+      url: https://github.com/timosalm/spring-boot-crac-demo.git
       ref:
-        branch: main
+        branch: checkpoint-at-runtime
