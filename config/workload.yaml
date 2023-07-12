@@ -13,4 +13,4 @@ spec:
     git:
       url: https://github.com/timosalm/spring-boot-crac-demo.git
       ref:
-        branch: checkpoint-at-runtime
+        branch: main
