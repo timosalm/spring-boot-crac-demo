@@ -1,5 +1,7 @@
 # Running a Spring Boot application on VMware Tanzu Application Platform with [Coordinated Restore at Checkpoint (CRaC)](https://openjdk.org/projects/crac/)
 
+**Status: WIP as used libraries don't provide CraC support yet!**
+
 Coordinated Restore at Checkpoint (CRaC) is an OpenJDK project to drastically reduce a Java application's start-up and warm-up times by taking a memory snapshot at runtime and restoring it in later executions.
 
 [Azul initiated the OpenJDK CRaC project](https://www.azul.com/products/components/crac/) and provides an OpenJDK 17 distribution with built-in support for CRaC, which we're using in this demo.
