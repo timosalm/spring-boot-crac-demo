@@ -35,5 +35,6 @@ COPY --from=build-app $JAVA_HOME $JAVA_HOME
 # Copy layers
 COPY --from=build-app /home/app/spring-boot-crac-demo.jar /home/app/spring-boot-crac-demo.jar
 COPY entrypoint.sh /home/app/entrypoint.sh
+RUN mkdir /home/app/public
 
 ENTRYPOINT ["/home/app/entrypoint.sh"]

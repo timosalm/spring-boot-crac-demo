@@ -2,6 +2,5 @@ spring:
   jpa:
     generate-ddl: true
     defer-datasource-initialization: true
-  datasource:
-    url: jdbc:h2:mem:EMOJI
 logging.level.org.hibernate: DEBUG
+org.springframework.cloud.bindings.boot.enable: true
