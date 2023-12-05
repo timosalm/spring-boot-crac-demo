@@ -1,31 +1,28 @@
 version: "3.8"
 
 services:
-  mysql:
-    image: bitnami/mysql:latest
+  db:
+    image: bitnami/postgresql:latest
     restart: unless-stopped
     ports:
-      - 3306:3306
+      - 5432:5432
     environment:
-      - MYSQL_ROOT_PASSWORD=hello-spring
-      - MYSQL_DATABASE=inclusion
+      - POSTGRESQL_PASSWORD=hello-spring
+      - POSTGRESQL_DATABASE=inclusion
     volumes:
-    - db:/bitnami/mysql/data
+    - db:/bitnami/postgresql
   app:
-    #entrypoint: sleep 3600
     depends_on:
-      - mysql
-    #image: harbor.main.emea.end2end.link/tsalm/sb-crac:0.1.15
+      - db
     build: .
     restart: on-failure
     ports:
       - 8080:8080
     environment:
       SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url"  : "jdbc:mysql://mysql:3306/inclusion?allowPublicKeyRetrieval=true&useSSL=false",
-        "spring.datasource.username" : "root",
-        "spring.datasource.password" : "hello-spring",
-        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQLDialect"
+        "spring.datasource.url"  : "jdbc:postgresql://db:5432/inclusion?allowPublicKeyRetrieval=true&useSSL=false",
+        "spring.datasource.username" : "postgres",
+        "spring.datasource.password" : "hello-spring"
       }'
       CRAC_FILES_DIR: /var/crac/
     volumes:

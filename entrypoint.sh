@@ -7,7 +7,7 @@ mkdir -p $CRAC_FILES_DIR
 
 if [ -z "$(ls -A $CRAC_FILES_DIR)" ]; then
   ( echo 128 > /proc/sys/kernel/ns_last_pid ) 2>/dev/null || while [ $(cat /proc/sys/kernel/ns_last_pid) -lt 128 ]; do :; done
-  java -Dmanagement.endpoint.health.probes.add-additional-paths="true" -Dmanagement.health.probes.enabled="true" -Dspring.context.checkpoint=onRefresh -Dspring.datasource.hikari.allow-pool-suspension=true -XX:CRaCCheckpointTo=$CRAC_FILES_DIR -jar  /application/app.jar
+  java -Dmanagement.endpoint.health.probes.add-additional-paths="true" -Dmanagement.health.probes.enabled="true" -Dspring.context.checkpoint=onRefresh -XX:CRaCCheckpointTo=$CRAC_FILES_DIR -jar  /application/app.jar
 else
   java -Dmanagement.endpoint.health.probes.add-additional-paths="true" -Dmanagement.health.probes.enabled="true" -XX:CRaCRestoreFrom=$CRAC_FILES_DIR&
   PID=$!
