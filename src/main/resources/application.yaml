@@ -3,5 +3,5 @@ spring:
   jpa:
     hibernate.ddl-auto: none
   datasource:
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari.allow-pool-suspension: true
