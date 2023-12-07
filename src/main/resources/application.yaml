@@ -1,6 +1,7 @@
 spring:
   sql.init.mode: always
-  jpa.generate-ddl: false
+  jpa:
+    hibernate.ddl-auto: none
   datasource:
     driver-class-name: org.postgresql.Driver
     hikari.allow-pool-suspension: true

@@ -2,7 +2,9 @@ package com.example.emojiinclusion.emoji;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 import java.util.List;
 import java.util.Random;
 
@@ -10,8 +12,8 @@ import java.util.Random;
 public class Emoji {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     private String stringValue;
 
@@ -38,11 +40,11 @@ public class Emoji {
         this.stringValue = value;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }
